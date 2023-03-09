@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "kaboom": "^3000.0.0-beta.2"
+  },
+  "name": "cat-clicker",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodemon --exec 'esbuild src/index.js --bundle > bundle.js' --ignore 'bundle.js'"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

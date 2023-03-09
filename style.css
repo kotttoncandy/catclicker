@@ -1,0 +1,13 @@
+#banner-container {
+    position: absolute;
+    top: 308px;
+    left: 75px;
+    transform: translate(-50%, -50%);
+}
+
+body {
+    overflow-y: hidden;
+    /* Hide vertical scrollbar */
+    overflow-x: hidden;
+    /* Hide horizontal scrollbar */
+}
