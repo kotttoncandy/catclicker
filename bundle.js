@@ -3954,6 +3954,7 @@ Cost: ${Math.round(this.cost)}`;
   };
 
   // src/index.js
+  GamePix.loaded();
   var blocker = 1;
   function adblockDetection(event) {
     if (event.hasAdblock) {
@@ -4512,12 +4513,35 @@ Cost: ${Math.round(this.cost)}`;
       color(0, 0, 0)
     ]);
     let curTween = null;
+    function giveReward() {
+      debug.paused = false;
+      r = 2;
+      let indicator = add([
+        text("2x", {
+          font: "font",
+          size: 40
+        }),
+        pos(rand(50, width() - 50), 0),
+        area(),
+        color(0, 0, 0),
+        offscreen({ destroy: true })
+      ]);
+      tween(indicator.pos, vec2(indicator.pos.x, height()), 10, (y) => indicator.pos = y, easings.linear);
+      setTimeout(() => {
+        r = 1;
+      }, 1e4);
+      debug.paused = false;
+    }
     button.onHoverUpdate(() => {
       if (isMousePressed()) {
         if (blocker == 1) {
           if (Globals_default.timer <= 0) {
-            crazysdk.requestAd("rewarded");
             debug.paused = true;
+            GamePix.rewardAd().then(function(res) {
+              if (res.success) {
+                giveReward();
+              }
+            });
             Globals_default.timer = 300;
           } else {
             add([
@@ -4547,26 +4571,7 @@ Cost: ${Math.round(this.cost)}`;
         }
       }
     });
-    crazysdk.addEventListener("adStarted", () => {
-      debug.paused = true;
-    });
     crazysdk.addEventListener("adFinished", () => {
-      debug.paused = false;
-      r = 2;
-      let indicator = add([
-        text("2x", {
-          font: "font",
-          size: 40
-        }),
-        pos(rand(50, width() - 50), 0),
-        area(),
-        color(0, 0, 0),
-        offscreen({ destroy: true })
-      ]);
-      tween(indicator.pos, vec2(indicator.pos.x, height()), 10, (y) => indicator.pos = y, easings.linear);
-      setTimeout(() => {
-        r = 1;
-      }, 1e4);
     });
     crazysdk.addEventListener("adError", () => {
       console.log("wad");

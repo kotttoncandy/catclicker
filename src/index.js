@@ -6,7 +6,7 @@ import Stage from "./stage"
 import state from "./Globals"
 import Game from "./game";
 
-
+GamePix.loaded()
 var blocker = 1;
 
 function adblockDetection(event) {
@@ -695,12 +695,41 @@ scene("game", () => {
 
     //debug.paused = true
 
+    function giveReward() {
+        debug.paused = false;
+        r = 2;
+        let indicator = add([
+            text("2x", {
+                font: "font",
+                size: 40
+            }),
+            pos(rand(50, width() - 50), 0),
+            area(),
+            color(0, 0, 0),
+            offscreen({ destroy: true }),
+        ]);
+
+
+        tween(indicator.pos, vec2(indicator.pos.x, height()), 10, (y) => indicator.pos = y, easings.linear);
+
+        setTimeout(() => {
+            r = 1;
+
+        }, 10000);
+        debug.paused = false;
+    }
+
     button.onHoverUpdate(() => {
         if (isMousePressed()) {
             if (blocker == 1) {
                 if (state.timer <= 0) {
-                    crazysdk.requestAd("rewarded");
                     debug.paused = true;
+
+                    GamePix.rewardAd().then(function (res) {
+                        if (res.success) {
+                            giveReward();                        
+                        } 
+                      });                    
                     state.timer = 300;
                 } else {
                     add([
@@ -733,30 +762,7 @@ scene("game", () => {
         }
     })
 
-    crazysdk.addEventListener("adStarted", () => {
-        debug.paused = true;
-    });
     crazysdk.addEventListener("adFinished", () => {
-        debug.paused = false;
-        r = 2;
-        let indicator = add([
-            text("2x", {
-                font: "font",
-                size: 40
-            }),
-            pos(rand(50, width() - 50), 0),
-            area(),
-            color(0, 0, 0),
-            offscreen({ destroy: true }),
-        ])
-
-
-        tween(indicator.pos, vec2(indicator.pos.x, height()), 10, (y) => indicator.pos = y, easings.linear);
-
-        setTimeout(() => {
-            r = 1;
-
-        }, 10000)
     });
 
     crazysdk.addEventListener("adError", () => {
