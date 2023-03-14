@@ -727,10 +727,11 @@ scene("game", () => {
 
                     GamePix.rewardAd().then(function (res) {
                         if (res.success) {
-                            giveReward();                        
+                            giveReward();
+                            state.timer = 300;
+
                         } 
                       });                    
-                    state.timer = 300;
                 } else {
                     add([
                         text(`You Need to Wait ${roundNearestTenth(roundNearestTenth(state.timer) / 60)} Minutes`, {

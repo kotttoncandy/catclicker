@@ -4540,9 +4540,9 @@ Cost: ${Math.round(this.cost)}`;
             GamePix.rewardAd().then(function(res) {
               if (res.success) {
                 giveReward();
+                Globals_default.timer = 300;
               }
             });
-            Globals_default.timer = 300;
           } else {
             add([
               text(`You Need to Wait ${roundNearestTenth(roundNearestTenth(Globals_default.timer) / 60)} Minutes`, {
