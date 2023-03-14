@@ -1490,11 +1490,11 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       let M = l(() => {
         if (!s2.buffer)
           return 0;
-        let E = c ? b - p : a.currentTime - p, x2 = s2.buffer.duration;
-        return s2.loop ? E % x2 : Math.min(E, x2);
+        let E = c ? b - p : a.currentTime - p, x = s2.buffer.duration;
+        return s2.loop ? E % x : Math.min(E, x);
       }, "getTime"), I = l((E) => {
-        let x2 = a.createBufferSource();
-        return x2.buffer = E.buffer, x2.loop = E.loop, x2.playbackRate.value = E.playbackRate.value, x2.detune.value = E.detune.value, x2.onended = E.onended, x2.connect(m2), x2;
+        let x = a.createBufferSource();
+        return x.buffer = E.buffer, x.loop = E.loop, x.playbackRate.value = E.playbackRate.value, x.detune.value = E.detune.value, x.onended = E.onended, x.connect(m2), x;
       }, "cloneNode");
       return { set paused(E) {
         if (c !== E)
@@ -1502,8 +1502,8 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
             T && (s2.stop(), T = false), b = a.currentTime;
           else {
             s2 = I(s2);
-            let x2 = b - p;
-            s2.start(0, x2), T = true, p = a.currentTime - x2, b = 0;
+            let x = b - p;
+            s2.start(0, x), T = true, p = a.currentTime - x, b = 0;
           }
       }, get paused() {
         return c;
@@ -1836,17 +1836,17 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
             t.tex.update(L, R.cursor.x, R.cursor.y), t.map[le] = new X(R.cursor.x, R.cursor.y, C, O), R.cursor.x += C;
           }
       }
-      let s2 = e.size || t.size, h = U(e.scale ?? 1).scale(s2 / t.size), m2 = e.lineSpacing ?? 0, d = e.letterSpacing ?? 0, p = 0, b = 0, T = 0, H = [], M = [], I = 0, E = null, x2 = null;
+      let s2 = e.size || t.size, h = U(e.scale ?? 1).scale(s2 / t.size), m2 = e.lineSpacing ?? 0, d = e.letterSpacing ?? 0, p = 0, b = 0, T = 0, H = [], M = [], I = 0, E = null, x = null;
       for (; I < c.length; ) {
         let G = c[I];
         if (G === `
 `)
-          T += s2 + m2, H.push({ width: p - d, chars: M }), E = null, x2 = null, p = 0, M = [];
+          T += s2 + m2, H.push({ width: p - d, chars: M }), E = null, x = null, p = 0, M = [];
         else {
           let V = t.map[G];
           if (V) {
             let R = V.w * h.x;
-            e.width && p + R > e.width && (T += s2 + m2, E != null && (I -= M.length - E, G = c[I], V = t.map[G], R = V.w * h.x, M = M.slice(0, E - 1), p = x2), E = null, x2 = null, H.push({ width: p - d, chars: M }), p = 0, M = []), M.push({ tex: t.tex, width: V.w, height: V.h, quad: new X(V.x / t.tex.width, V.y / t.tex.height, V.w / t.tex.width, V.h / t.tex.height), ch: G, pos: new v(p, T), opacity: e.opacity ?? 1, color: e.color ?? D.WHITE, scale: U(h), angle: 0 }), G === " " && (E = M.length, x2 = p), p += R, b = Math.max(b, p), p += d;
+            e.width && p + R > e.width && (T += s2 + m2, E != null && (I -= M.length - E, G = c[I], V = t.map[G], R = V.w * h.x, M = M.slice(0, E - 1), p = x), E = null, x = null, H.push({ width: p - d, chars: M }), p = 0, M = []), M.push({ tex: t.tex, width: V.w, height: V.h, quad: new X(V.x / t.tex.width, V.y / t.tex.height, V.w / t.tex.width, V.h / t.tex.height), ch: G, pos: new v(p, T), opacity: e.opacity ?? 1, color: e.color ?? D.WHITE, scale: U(h), angle: 0 }), G === " " && (E = M.length, x = p), p += R, b = Math.max(b, p), p += d;
           }
         }
         I++;
@@ -2761,7 +2761,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
         if (!h)
           throw new Error(`Frame not found: ${this.frame ?? 0}`);
         if (n.slice9) {
-          let { left: m2, right: d, top: p, bottom: b } = n.slice9, T = n.tex.width * h.w, H = n.tex.height * h.h, M = this.width - m2 - d, I = this.height - p - b, E = m2 / T, x2 = d / T, J = 1 - E - x2, G = p / H, V = b / H, R = 1 - G - V, le = [te(0, 0, E, G), te(E, 0, J, G), te(E + J, 0, x2, G), te(0, G, E, R), te(E, G, J, R), te(E + J, G, x2, R), te(0, G + R, E, V), te(E, G + R, J, V), te(E + J, G + R, x2, V), te(0, 0, m2, p), te(m2, 0, M, p), te(m2 + M, 0, d, p), te(0, p, m2, I), te(m2, p, M, I), te(m2 + M, p, d, I), te(0, p + I, m2, b), te(m2, p + I, M, b), te(m2 + M, p + I, d, b)];
+          let { left: m2, right: d, top: p, bottom: b } = n.slice9, T = n.tex.width * h.w, H = n.tex.height * h.h, M = this.width - m2 - d, I = this.height - p - b, E = m2 / T, x = d / T, J = 1 - E - x, G = p / H, V = b / H, R = 1 - G - V, le = [te(0, 0, E, G), te(E, 0, J, G), te(E + J, 0, x, G), te(0, G, E, R), te(E, G, J, R), te(E + J, G, x, R), te(0, G + R, E, V), te(E, G + R, J, V), te(E + J, G + R, x, V), te(0, 0, m2, p), te(m2, 0, M, p), te(m2 + M, 0, d, p), te(0, p, m2, I), te(m2, p, M, I), te(m2 + M, p, d, I), te(0, p + I, m2, b), te(m2, p + I, M, b), te(m2 + M, p + I, d, b)];
           for (let w = 0; w < 9; w++) {
             let S = le[w], C = le[w + 9];
             ft(Object.assign(ze(this), { pos: C.pos(), tex: n.tex, quad: h.scale(S), flipX: this.flipX, flipY: this.flipY, tiled: t.tiled, width: C.w, height: C.h }));
@@ -3108,7 +3108,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     }
     l(Ut, "center");
     let Rs;
-    ((x2) => (x2[x2.None = 0] = "None", x2[x2.Left = 1] = "Left", x2[x2.Top = 2] = "Top", x2[x2.LeftTop = 3] = "LeftTop", x2[x2.Right = 4] = "Right", x2[x2.Horizontal = 5] = "Horizontal", x2[x2.RightTop = 6] = "RightTop", x2[x2.HorizontalTop = 7] = "HorizontalTop", x2[x2.Bottom = 8] = "Bottom", x2[x2.LeftBottom = 9] = "LeftBottom", x2[x2.Vertical = 10] = "Vertical", x2[x2.LeftVertical = 11] = "LeftVertical", x2[x2.RightBottom = 12] = "RightBottom", x2[x2.HorizontalBottom = 13] = "HorizontalBottom", x2[x2.RightVertical = 14] = "RightVertical", x2[x2.All = 15] = "All"))(Rs ||= {});
+    ((x) => (x[x.None = 0] = "None", x[x.Left = 1] = "Left", x[x.Top = 2] = "Top", x[x.LeftTop = 3] = "LeftTop", x[x.Right = 4] = "Right", x[x.Horizontal = 5] = "Horizontal", x[x.RightTop = 6] = "RightTop", x[x.HorizontalTop = 7] = "HorizontalTop", x[x.Bottom = 8] = "Bottom", x[x.LeftBottom = 9] = "LeftBottom", x[x.Vertical = 10] = "Vertical", x[x.LeftVertical = 11] = "LeftVertical", x[x.RightBottom = 12] = "RightBottom", x[x.HorizontalBottom = 13] = "HorizontalBottom", x[x.RightVertical = 14] = "RightVertical", x[x.All = 15] = "All"))(Rs ||= {});
     function $n(e = {}) {
       let t = U(0), n = e.isObstacle ?? false, a = e.cost ?? 0, c = e.edges ?? [], s2 = l(() => {
         let m2 = { left: 1, top: 2, right: 4, bottom: 8 };
@@ -3185,7 +3185,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
             h[C] = L || 1;
           }
         }
-      }, "createCostMap"), x2 = l(() => {
+      }, "createCostMap"), x = l(() => {
         let w = n.getSpatialMap(), S = n.numRows() * n.numColumns();
         m2 ? m2.length = S : m2 = new Array(S), m2.fill(15, 0, S);
         for (let C = 0; C < w.length; C++) {
@@ -3279,7 +3279,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       }, onNavigationMapChanged(w) {
         return this.on("navigation_map_changed", w);
       }, getTilePath(w, S, C = {}) {
-        if (h || E(), m2 || x2(), d || J(), w.x < 0 || w.x >= c || w.y < 0 || w.y >= a || S.x < 0 || S.x >= c || S.y < 0 || S.y >= a)
+        if (h || E(), m2 || x(), d || J(), w.x < 0 || w.x >= c || w.y < 0 || w.y >= a || S.x < 0 || S.x >= c || S.y < 0 || S.y >= a)
           return null;
         let O = p(w), L = p(S);
         if (h[L] === 1 / 0)
@@ -3480,9 +3480,9 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
               else if (!e[I][E])
                 e[I][E] = [h];
               else {
-                let x2 = e[I][E];
+                let x = e[I][E];
                 e:
-                  for (let J of x2) {
+                  for (let J of x) {
                     if (!J.exists() || M.has(J.id))
                       continue;
                     for (let V of h.collisionIgnore)
@@ -3500,7 +3500,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
                     }
                     M.add(J.id);
                   }
-                x2.push(h);
+                x.push(h);
               }
         }
         s2.children.forEach(c), n = a.pop();
@@ -3848,7 +3848,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
   }
   var Powerup = class {
-    constructor(x2, y, t, func, cost, parent, id, m2) {
+    constructor(x, y, t, func, cost, parent, id, m2) {
       this.gameObject = add([
         text(t + `
 `, {
@@ -3857,7 +3857,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
           size: 30
         }),
         anchor("center"),
-        pos(get(parent)[0].pos.x + x2, get(parent)[0].pos.y + y),
+        pos(get(parent)[0].pos.x + x, get(parent)[0].pos.y + y),
         area(),
         scale(),
         animate(1, 0.05),
@@ -3868,7 +3868,7 @@ vec4 frag(vec2 pos, vec2 uv, vec4 color, sampler2D tex) {
       this.cost = cost;
       this.initialCost = cost;
       this.parent = parent;
-      this.x = x2;
+      this.x = x;
       this.y = y;
       this.t = t;
       this.id = id;
@@ -3956,27 +3956,38 @@ Cost: ${Math.round(this.cost)}`;
   // src/index.js
   GamePix.loaded();
   var blocker = 1;
-  function roundNearestTenth(x2) {
-    return Math.round(10 * x2) / 10;
+  function adblockDetection() {
+    if (window.blocker) {
+      blocker = 2;
+    } else {
+      blocker = 1;
+    }
   }
+  function roundNearestTenth(x) {
+    return Math.round(10 * x) / 10;
+  }
+  adblockDetection();
   var vol = 1;
-  var x = document.querySelector(".ad-zone");
-  var x_height = x.offsetHeight;
-  var msg = document.getElementById("msg");
-  if (x_height) {
-    blocker = 1;
-  } else {
-    blocker = 2;
-  }
   ra({
     background: [222, 222, 222],
     crisp: true,
     canvas: document.querySelector("#mycanvas"),
     height: 615,
     width: 1128,
-    debug: false,
+    debug: true,
     texFilter: "nearest"
   });
+  var fakeAd = document.createElement("div");
+  fakeAd.className = "textads banner-ads banner_ads ad-unit ad-zone ad-space adsbox";
+  fakeAd.style.height = "1px";
+  document.body.appendChild(fakeAd);
+  var x_width = fakeAd.offsetHeight;
+  console.log(window.blocker);
+  if (x_width) {
+    blocker = 1;
+  } else {
+    blocker = 2;
+  }
   var s = width / 1680 / (945 / height);
   function setCookie3(cname, cvalue, exdays) {
     const d = /* @__PURE__ */ new Date();

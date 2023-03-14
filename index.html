@@ -4,9 +4,28 @@
         <script src="https://integration.gamepix.com/sdk/v3/gamepix.sdk.js"></script>
     </head>
     <body>
-        <div 
-        class="ad-zone ad-space ad-unit textads banner-ads banner_ads">
-        </div>
+        <script>
+            let fakeAd = document.createElement("div");
+            fakeAd.className =
+                "textads banner-ads banner_ads ad-unit ad-zone ad-space adsbox"
+    
+            fakeAd.style.height = "1px"
+    
+            document.body.appendChild(fakeAd)
+    
+            let x_width = fakeAd.offsetHeight;
+            let msg = document.getElementById("msg")
+    
+    
+            if (x_width) {
+                window.blocker = false
+            } else {
+                window.blocker = true
+            }
+            console.log("Wasd")
+        </script>
+        
+        <div class="ad-zone ad-space ad-unit textads banner-ads banner_ads"></div>
         <div id="banner-container" style="width: 120px; height: 600px"></div>
         <script src="bundle.js"></script>
 

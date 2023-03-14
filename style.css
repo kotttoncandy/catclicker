@@ -5,6 +5,15 @@
     transform: translate(-50%, -50%);
 }
 
+div {
+    position: absolute;
+    top: 308px;
+    left: 75px;
+    transform: translate(-50%, -50%);
+    width: 1;
+    height: 1
+}
+
 body {
     overflow-y: hidden;
     /* Hide vertical scrollbar */

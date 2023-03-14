@@ -9,8 +9,8 @@ import Game from "./game";
 GamePix.loaded()
 var blocker = 1;
 
-function adblockDetection(event) {
-    if (event.hasAdblock) {
+function adblockDetection() {
+    if (window.blocker) {
         blocker = 2;
     } else {
         blocker = 1
@@ -21,18 +21,9 @@ function roundNearestTenth(x) {
     return Math.round(10 * x) / 10;
 }
 
+adblockDetection()
 
 var vol = 1;
-
-let x = document.querySelector(".ad-zone");
-let x_height = x.offsetHeight;
-let msg = document.getElementById("msg")
-     
-if(x_height){
-    blocker = 1;
-} else{
-    blocker = 2;
-}
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -42,9 +33,27 @@ kaboom({
     canvas: document.querySelector("#mycanvas"),
     height: 615,
     width: 1128,
-    debug: false,
+    debug: true,
     texFilter: "nearest"
 });
+
+let fakeAd = document.createElement("div");
+fakeAd.className =
+    "textads banner-ads banner_ads ad-unit ad-zone ad-space adsbox"
+
+fakeAd.style.height = "1px"
+
+document.body.appendChild(fakeAd)
+
+let x_width = fakeAd.offsetHeight;
+
+console.log(window.blocker)
+
+if (x_width) {
+    blocker = 1;
+} else {
+    blocker = 2;
+}
 
 var s = (width / 1680) / ((945 / height))
 
@@ -154,7 +163,7 @@ scene("title", () => {
         pos(200, center().y),
         area(),
         anchor("center"),
-        color(0,0,0),
+        color(0, 0, 0),
         opacity(0.3),
         z(-1000)
     ])
@@ -175,7 +184,7 @@ scene("title", () => {
 
 
     var title = add([
-        pos(center().x+250, 75),
+        pos(center().x + 250, 75),
         anchor("center"),
         text("BONGO CAT \nCLICKER", {
             font: "font",
@@ -261,7 +270,7 @@ scene("title", () => {
         music.volume = vol * 0.2;
 
         for (var i = 0; i < get("displayCat").length; i++) {
-            if (debug.fps() > 1) get("displayCat")[i].angle += 120/debug.fps();
+            if (debug.fps() > 1) get("displayCat")[i].angle += 120 / debug.fps();
 
             if (get("displayCat")[i].pos.y > height() + 50) {
                 get("displayCat")[i].pos.y = -50;
@@ -508,7 +517,7 @@ scene("game", () => {
         area(),
         anchor("center"),
         scale(),
-        color(0,0,0),
+        color(0, 0, 0),
         animate(3, 0.04),
     ])
 
@@ -736,8 +745,8 @@ scene("game", () => {
                             giveReward();
                             state.timer = 300;
 
-                        } 
-                      });                    
+                        }
+                    });
                 } else {
                     add([
                         text(`You Need to Wait ${roundNearestTenth(roundNearestTenth(state.timer) / 60)} Minutes`, {
@@ -894,7 +903,7 @@ scene("game", () => {
             vol = 0;
         }
 
-        volume(vol*3);
+        volume(vol * 3);
 
         v.text = `Volume (${roundNearestTenth(vol)})`
 
@@ -923,7 +932,7 @@ scene("game", () => {
             m = 1;
         }
 
-        if (debug.fps() > 1) meter.scale.y += (value/245 - meter.scale.y) * (3 / debug.fps());
+        if (debug.fps() > 1) meter.scale.y += (value / 245 - meter.scale.y) * (3 / debug.fps());
 
 
         score.text = `Fur: ${Math.round(state.fur)}`;
@@ -1000,7 +1009,7 @@ scene("game", () => {
             glassesInvert.opacity = 0;
             bow.opacity = 0;
             hat.opacity = 1;
-            cap.opacity = 0;      
+            cap.opacity = 0;
         }
 
         if (i == 4) {
@@ -1046,21 +1055,21 @@ scene("game", () => {
             }
         }
 
-/*
-        for (let toggle = 0; toggle < toggles.length; toggle++) {
-            toggles[toggle].update();
-            if (!light) {
-                toggles[toggle].gameObject.color = rgb(255, 255, 255)
-                toggles[toggle].r.color = rgb(0, 0, 0)
-
-
-            } else {
-                toggles[toggle].gameObject.color = rgb(0, 0, 0)
-                toggles[toggle].r.color = rgb(255, 255, 255)
-
-            }
-        }
-*/
+        /*
+                for (let toggle = 0; toggle < toggles.length; toggle++) {
+                    toggles[toggle].update();
+                    if (!light) {
+                        toggles[toggle].gameObject.color = rgb(255, 255, 255)
+                        toggles[toggle].r.color = rgb(0, 0, 0)
+        
+        
+                    } else {
+                        toggles[toggle].gameObject.color = rgb(0, 0, 0)
+                        toggles[toggle].r.color = rgb(255, 255, 255)
+        
+                    }
+                }
+        */
         c.update(i, state.fur, vol);
         cool.update(i, state.fur, vol);
         elegant.update(i, state.fur, vol);
