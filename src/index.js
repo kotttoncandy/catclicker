@@ -24,9 +24,15 @@ function roundNearestTenth(x) {
 
 var vol = 1;
 
-const crazysdk = window.CrazyGames.CrazySDK.getInstance();
-crazysdk.addEventListener("adblockDetectionExecuted", adblockDetection);
-crazysdk.init();
+let x = document.querySelector(".ad-zone");
+let x_height = x.offsetHeight;
+let msg = document.getElementById("msg")
+     
+if(x_height){
+    blocker = 1;
+} else{
+    blocker = 2;
+}
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
@@ -763,12 +769,6 @@ scene("game", () => {
         }
     })
 
-    crazysdk.addEventListener("adFinished", () => {
-    });
-
-    crazysdk.addEventListener("adError", () => {
-        console.log("wad")
-    });
 
     // click
 
