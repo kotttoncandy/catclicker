@@ -4037,7 +4037,10 @@ Cost: ${Math.round(this.cost)}`;
       }
     }
   }
-  loadFont("font", "font.ttf");
+  loadFont("font", "font.ttf", {
+    outline: 0.1,
+    filter: "linear"
+  });
   loadSprite("cat", "images/cat.png", {
     sliceX: 2,
     sliceY: 3,
@@ -4754,5 +4757,5 @@ Cost: ${Math.round(this.cost)}`;
       save();
     }, 1e3);
   });
-  go("game");
+  go("title");
 })();
