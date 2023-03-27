@@ -5,8 +5,6 @@ import Powerup from "./powerup";
 import Stage from "./stage"
 import state from "./Globals"
 import Game from "./game";
-
-GamePix.loaded()
 var blocker = 1;
 
 function adblockDetection() {
@@ -27,14 +25,18 @@ var vol = 1;
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 
+
+var w = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+var h = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 kaboom({
     background: [222, 222, 222],
-    crisp: true,
+    //crisp: true,
     canvas: document.querySelector("#mycanvas"),
-    height: 615,
-    width: 1128,
-    debug: true,
-    texFilter: "nearest"
+    //height: 615,
+    //width: 1128,
+    debug: false,
+    //texFilter: "nearest",
+    scale: ((w+h)/(615+1128))/1.1,
 });
 
 let fakeAd = document.createElement("div");
@@ -186,7 +188,7 @@ scene("title", () => {
     var title = add([
         pos(center().x + 250, 75),
         anchor("center"),
-        text("BONGO CAT \nCLICKER", {
+        text("Cute CAT \nCLICKER :3", {
             font: "font",
             size: 60,
             align: "center"
@@ -445,18 +447,19 @@ scene("game", () => {
             state.elegant += Math.random() + 2;
 
         }, 2, "powerup", "elegant", state.elegant),
+
+        new Powerup(-50, 40, "Scratches\n+10 Furs Per Second", function () {
+            state.auto += 10;
+            state.elegant += Math.random() + 2;
+
+        }, 50, "powerup", "elegant", state.elegant),
+
         new Powerup(-50, -80, "Auto Cuddler\n+30 Furs Per Second", function () {
 
             state.auto += 30;
             state.elegant += Math.random() + 2;
 
         }, 200, "powerup", "elegant", state.elegant),
-
-        new Powerup(-50, 40, "Scratches\n+4 Furs Per Second", function () {
-            state.auto += 10;
-            state.elegant += Math.random() + 2;
-
-        }, 50, "powerup", "elegant", state.elegant),
     ], 2, 500000, "ELEGANT")
 
 
@@ -539,7 +542,7 @@ scene("game", () => {
         text(`Volume (${vol})`, {
             font: "font",
         }),
-        pos(width() - 120, height() - 20),
+        pos(width()-210, height() - 25),
         area(),
         color(0, 0, 0),
         anchor("center"),
@@ -551,7 +554,7 @@ scene("game", () => {
             font: "font"
         }),
         color(0, 0, 0),
-        pos(140, 0),
+        pos(160, 0),
         area(),
         anchor("center"),
     ])
@@ -561,7 +564,7 @@ scene("game", () => {
             font: "font"
         }),
         color(0, 0, 0),
-        pos(-145, 0),
+        pos(-160, 0),
         area(),
         anchor("center"),
     ])
@@ -571,6 +574,7 @@ scene("game", () => {
     s.onHoverUpdate(() => {
         if (isMousePressed()) {
             vol -= 0.1;
+
         }
     })
 
@@ -684,28 +688,6 @@ scene("game", () => {
 
     // 2x ad
 
-    var button = add([
-        rect(100, 100, {
-            radius: 0
-        }),
-        anchor("center"),
-        pos(width() - 325, height() - 60),
-        outline(3),
-        scale(),
-        area()
-    ])
-
-    var b2 = button.add([
-        anchor("center"),
-        area(),
-        text("2x Fur\n(Ad)", {
-            align: "center",
-            font: "font",
-            size: 24,
-        }),
-        scale(),
-        color(0, 0, 0),
-    ])
     let curTween = null
 
     //debug.paused = true
@@ -733,52 +715,6 @@ scene("game", () => {
         }, 10000);
         debug.paused = false;
     }
-
-    button.onHoverUpdate(() => {
-        if (isMousePressed()) {
-            if (blocker == 1) {
-                if (state.timer <= 0) {
-                    debug.paused = true;
-
-                    GamePix.rewardAd().then(function (res) {
-                        if (res.success) {
-                            giveReward();
-                            state.timer = 300;
-
-                        }
-                    });
-                } else {
-                    add([
-                        text(`You Need to Wait ${roundNearestTenth(roundNearestTenth(state.timer) / 60)} Minutes`, {
-                            size: 30,
-                            align: "center",
-                            font: "font",
-                        }),
-                        color(0, 0, 0),
-                        pos(356, 25),
-                        anchor("center"),
-                        lifespan(2),
-                    ])
-                }
-
-                //300000
-            } else {
-                add([
-                    text("AD BLOCKER DETECTED", {
-                        size: 50,
-                        align: "center",
-                        font: "font",
-                    }),
-                    color(0, 0, 0),
-                    pos(356, 25),
-                    anchor("center"),
-                    lifespan(2),
-                ])
-            }
-        }
-    })
-
-
     // click
 
     player.onHoverUpdate(() => {
@@ -1090,4 +1026,4 @@ scene("game", () => {
 
 })
 
-go("title");
+go("game");

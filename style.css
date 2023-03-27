@@ -13,10 +13,3 @@ div {
     width: 1;
     height: 1
 }
-
-body {
-    overflow-y: hidden;
-    /* Hide vertical scrollbar */
-    overflow-x: hidden;
-    /* Hide horizontal scrollbar */
-}

@@ -17,7 +17,7 @@ export default class Powerup {
                 size: 30
             }),
             anchor("center"),
-            pos(get(parent)[0].pos.x + x, get(parent)[0].pos.y + y),
+            pos(get(parent)[0].pos.x-20, get(parent)[0].pos.y + y),
             area(),
             scale(),
             animate(1, 0.05),
